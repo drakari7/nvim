@@ -7,8 +7,8 @@ return {
       -- Auto-installs the formatters conform.nvim invokes below.
       -- rustfmt is intentionally omitted — it ships with rustup, not mason.
       ensure_installed = {
-        'stylua',    -- lua
-        'shfmt',     -- sh / bash
+        -- 'stylua',    -- lua
+        'shfmt',        -- sh / bash
         -- 'black',     -- python formatter
         -- 'isort',     -- python imports sorting
         -- 'autoflake', -- python
@@ -33,7 +33,7 @@ return {
       return {
         formatters_by_ft = {
           python = { 'autoflake', 'isort', 'black' },
-          lua    = { 'stylua' },
+          -- lua    = { 'stylua' }, -- stylua is too aggressive; gf falls back to lua_ls's built-in formatter
           sh     = { 'shfmt' },
           bash   = { 'shfmt' },
           rust   = { 'rustfmt' },
@@ -63,7 +63,7 @@ return {
       {
         'gf',
         mode = { 'n', 'x' },
-        function() require('conform').format({ async = true }) end,
+        function() require('conform').format({ async = true, lsp_format = 'fallback' }) end,
         desc = 'Format'
       },
     },
