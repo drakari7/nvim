@@ -28,6 +28,14 @@ return {
   },
   opts = {
     bigfile     = { enabled = true },
+    indent      = { enabled = true },
+    notifier    = { enabled = true },
+    picker      = { enabled = true },
+    explorer    = { enabled = true },
+    -- statuscolumn= { enabled = true },
+    -- terminal    = { enabled = true },
+    -- words       = { enabled = true },
+    -- scope       = { enabled = true },
     dashboard   = {
       enabled = true,
       sections = {
@@ -60,13 +68,5 @@ return {
         -- Useful but not essential; revisit when needed.
       },
     },
-    indent      = { enabled = true },
-    notifier    = { enabled = true },
-    picker      = { enabled = true },
-    explorer    = { enabled = true },
-    -- statuscolumn= { enabled = true },
-    -- terminal    = { enabled = true },
-    -- words       = { enabled = true },
-    -- scope       = { enabled = true },
   },
 }
