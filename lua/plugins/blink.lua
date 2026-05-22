@@ -13,7 +13,6 @@ return {
       preset = 'none', -- no defaults; we set everything explicitly
       ['<C-u>']  = { 'scroll_documentation_up', 'fallback' },
       ['<C-d>']  = { 'scroll_documentation_down', 'fallback' },
-      ['<C-x>']  = { 'cancel', 'fallback' },
       ['<M-j>']  = { 'select_next', 'fallback' },
       ['<M-k>']  = { 'select_prev', 'fallback' },
       ['<M-CR>'] = { 'select_and_accept', 'fallback' },
@@ -29,10 +28,22 @@ return {
             { 'kind_icon', 'label', gap = 1 },
             { 'source_name' }, -- the "[LSP]"/"[Buf]" equivalent column
           },
+          components = {
+            source_name = {
+              highlight = function(ctx)
+                return ({
+                  LSP      = 'GruvboxPurple',
+                  Buffer   = 'GruvboxAqua',
+                  Path     = 'GruvboxBlue',
+                  Snippets = 'GruvboxOrange',
+                })[ctx.source_name] or 'BlinkCmpSource'
+              end,
+            },
+          },
         },
       },
       documentation = { auto_show = true, window = { border = 'rounded' } },
-      accept = { auto_brackets = { enabled = true } }, -- replaces nvim-autopairs cmp hook
+      accept = { auto_brackets = { enabled = true } },
     },
     cmdline = {
       keymap = {
@@ -40,7 +51,6 @@ return {
         ['<M-j>']  = { 'select_next', 'fallback' },
         ['<M-k>']  = { 'select_prev', 'fallback' },
         ['<M-CR>'] = { 'select_and_accept', 'fallback' },
-        ['<C-x>']  = { 'cancel', 'fallback' },
       },
       completion = { menu = { auto_show = true } },
     },
