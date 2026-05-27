@@ -41,7 +41,6 @@ map('n', '<leader>ni', ':e ~/notes/notes.md<CR>', 'Open notes')
 
 
 -- Snippet navigation
--- TODO: test how it is vs luasnip
 map({ 'i', 's' }, '<C-J>', function()
   if vim.snippet.active({ direction = 1 }) then
     return vim.snippet.jump(1)
