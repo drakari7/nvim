@@ -64,9 +64,15 @@ vim.opt.listchars = {
 }
 
 -- Clipboard
--- If ssh is detected, use osc52 for clipboard
-vim.opt.clipboard = "unnamedplus"
+-- If ssh is detected, use osc52 for clipboard reads (paste not supported by wezterm)
 if os.getenv('SSH_TTY') then
+  local function default_paste()
+    return {
+      vim.fn.split(vim.fn.getreg(''), '\n'),
+      vim.fn.getregtype(''),
+    }
+  end
+
   vim.g.clipboard = {
     name = 'OSC 52',
     copy = {
@@ -74,8 +80,8 @@ if os.getenv('SSH_TTY') then
       ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
     },
     paste = {
-      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+      ['+'] = default_paste,
+      ['*'] = default_paste,
     },
   }
 end
