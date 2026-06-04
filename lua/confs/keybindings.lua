@@ -12,6 +12,7 @@ map('n', '<leader>hi', vim.show_pos, 'Inspect under cursor')
 map('n', '<leader>sw', '<cmd>% s#\\s\\+$##e<CR>:w<CR>', 'Strip trailing whitespace')
 map('n', '<leader>sm', ':%s/\\r//g<CR>', 'Strip carriage returns')
 map('n', '<leader>cd', '<cmd>cd %:p:h<CR>', 'cd to current file dir')
+map('n', '<leader>tc', '<cmd>tabclose<CR>', 'Tab Close')
 
 -- Quickfix and loclist
 map('n', '<leader>lc', '<cmd>lclose<CR>', 'Close loclist')
