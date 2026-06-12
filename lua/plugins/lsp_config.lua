@@ -74,7 +74,7 @@ return {
     map('n', '[d', function() jumpWithVirtualLineDiags(-1, min_warn) end, 'Prev error')
     map('n', ']d', function() jumpWithVirtualLineDiags( 1, min_warn) end, 'Next error')
 
-    map('n', '<leader>df', vim.diagnostic.open_float, 'Diagnostic float on current line')
+    map('n', '<leader>dp', vim.diagnostic.open_float, 'Diagnostic float on current line')
     map('n', '<leader>dq', vim.diagnostic.setqflist, 'Populate diagnostics in quickfix list')
     map('n', '<leader>dl', vim.diagnostic.setloclist, 'Populate diagnostics in loclist')
 

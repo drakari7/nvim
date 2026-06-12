@@ -1,10 +1,9 @@
-local map = require('confs.utils').map
-
 return {
   "folke/todo-comments.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
+  lazy = false,
 
   opts = {
     signs = false,
@@ -15,11 +14,9 @@ return {
     }
   },
 
-  config = function (_, opts)
-    local tc = require("todo-comments")
-    tc.setup(opts)
-
-    map('n', ']t', tc.jump_next, 'Next todo comment')
-    map('n', '[t', tc.jump_prev, 'Previous todo comment')
-  end,
+  keys = {
+    { ']t', function() require("todo-comments").jump_next() end, desc = 'Next todo comment' },
+    { '[t', function() require("todo-comments").jump_prev() end, desc = 'Previous todo comment' },
+    { '<leader>tq', '<cmd>TodoQuickFix keywords=TODO<cr>', desc = 'Todos (quickfix)' },
+  },
 }
