@@ -50,6 +50,30 @@ return {
       capabilities = require('blink.cmp').get_lsp_capabilities(),
     })
 
+    -- Point pyright at the project's virtualenv (uv creates `.venv`) so it
+    -- resolves installed deps — external (tabulate, jinja2, ...) and in-house
+    -- wheels (pyeventrecord, ai-trigger-client). Auto-detected per project root,
+    -- so this works OOB for any uv repo. Without it pyright uses system python.
+    -- Set in on_init (live client) + notify, so pyright actually re-resolves the
+    -- interpreter; mutating config.settings in before_init does NOT propagate.
+    vim.lsp.config('pyright', {
+      on_init = function(client)
+        local root = client.config.root_dir or vim.fn.getcwd()
+        -- Search root and its ancestors so a uv workspace member (rooted at its
+        -- own pyproject.toml) still finds the shared .venv at the workspace root.
+        local found = vim.fs.find({ '.venv' },
+          { path = root, upward = true, type = 'directory', limit = 1 })
+        if #found == 0 then return end
+        local py = found[1] .. '/bin/python'
+        if vim.uv.fs_stat(py) then
+          client.settings = vim.tbl_deep_extend('force', client.settings or {}, {
+            python = { pythonPath = py },
+          })
+          client:notify('workspace/didChangeConfiguration', { settings = client.settings })
+        end
+      end,
+    })
+
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
