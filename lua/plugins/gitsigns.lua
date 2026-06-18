@@ -50,5 +50,33 @@ return {
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end
     })
+
+    -- Shim until merged upstream: add `e` to the blame popup to show the commit
+    -- in the current window ('edit' mode) instead of a vsplit (s) / tab (S).
+    -- Avoids the orphaned [No Name] buffer that the tab variant leaves behind.
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'gitsigns-blame',
+      callback = function(ev)
+        vim.keymap.set('n', 'e', function()
+          local cache = require('gitsigns.cache').cache
+          local cursor = vim.api.nvim_win_get_cursor(0)[1]
+          -- find the file buffer/window this blame panel is attached to
+          local file_buf, file_win
+          for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+            local b = vim.api.nvim_win_get_buf(w)
+            if cache[b] and cache[b].blame then
+              file_buf, file_win = b, w
+              break
+            end
+          end
+          local entry = file_buf and cache[file_buf].blame.entries[cursor]
+          if not entry then return end
+          vim.api.nvim_set_current_win(file_win)
+          require('gitsigns.async').run(
+            require('gitsigns.actions.show_commit'),
+            entry.commit.sha, 'edit', file_buf)
+        end, { buffer = ev.buf, desc = 'Show commit in current window' })
+      end,
+    })
   end
 }
