@@ -32,7 +32,8 @@ return {
       local pyproject_root = require('conform.util').root_file({ 'pyproject.toml' })
       return {
         formatters_by_ft = {
-          python = { 'autoflake', 'isort', 'black' },
+          -- remove autoflake as it keeps removing unused vars in the middle of the code
+          python = { 'isort', 'black' },
           -- lua    = { 'stylua' }, -- stylua is too aggressive; gf falls back to lua_ls's built-in formatter
           sh     = { 'shfmt' },
           bash   = { 'shfmt' },

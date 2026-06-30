@@ -14,6 +14,7 @@ return {
     layout = {
       max_width = { 30, 0.16 },
       min_width = { 15, 0.1 },
+      default_direction = "right",
     },
 
     close_automatic_events = { "unsupported" },
