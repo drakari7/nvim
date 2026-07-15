@@ -25,7 +25,13 @@ return {
   {
     'nemanjamalesija/smart-paste.nvim',
     event = 'VeryLazy',
-    config = true,
+    config = function()
+      require('smart-paste').setup()
+
+      -- Paste in visual mode without yanking the pasted over content
+      map('x', 'p', 'P')
+      map('x', 'P', 'p')
+    end,
   },
 
 

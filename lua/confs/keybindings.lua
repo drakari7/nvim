@@ -23,10 +23,6 @@ map('v', '<leader>ct', ':!column -t<CR>gv>', 'Column table')
 map('v', 'K', ":m '<-2<CR>gv=gv", 'Move line up', silent_opt)
 map('v', 'J', ":m '>+1<CR>gv=gv", 'Move line down', silent_opt)
 
--- Paste in visual mode without yanking the pasted over content
-map('x', 'p', 'P')
-map('x', 'P', 'p')
-
 -- Json and python conversions
 map('n', '<leader>js', ":s/'/\"/ge | s/False/false/ge | s/True/true/ge | s/None/null/ge<CR>", "Convert to json")
 map('v', '<leader>js', ":g/^/ s#'#\"#ge | s#False#false#ge | s#True#true#ge | s#None#null#ge<CR>", "Convert to json")
