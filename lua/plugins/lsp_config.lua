@@ -84,6 +84,7 @@ return {
         "bashls",
         "jsonls",
         "taplo",
+        "ansiblels",
       },
     })
 
