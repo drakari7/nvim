@@ -66,7 +66,7 @@ return {
           preview_width = 0.47,
         },
 
-        file_ignore_patterns = { "__pycache__/", },
+        file_ignore_patterns = { "__pycache__/", "^%.git/", "/%.git/" },
         mappings = {
           i = {
             ["<m-j>"] = require('telescope.actions').move_selection_next,
@@ -82,7 +82,16 @@ return {
           "--line-number",
           "--column",
           "--smart-case",
+          "--hidden",
+          "--glob=!**/.git/*",
         }
+      },
+
+      pickers = {
+        find_files = {
+          hidden = true,
+          no_ignore = false, -- keep respecting .gitignore
+        },
       },
 
       extensions = {
