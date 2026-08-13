@@ -31,6 +31,10 @@ return {
       -- Paste in visual mode without yanking the pasted over content
       map('x', 'p', 'P')
       map('x', 'P', 'p')
+
+      -- Escape hatch: built-in paste, bypassing smart-paste's reindenting
+      map({ 'n', 'x' }, '<leader>p', 'p', 'Raw paste after (no reindent)')
+      map({ 'n', 'x' }, '<leader>P', 'P', 'Raw paste before (no reindent)')
     end,
   },
 
