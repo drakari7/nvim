@@ -74,6 +74,8 @@ return {
           },
         },
 
+        -- --smart-case, --hidden and the prune globs come from
+        -- $RIPGREP_CONFIG_PATH (~/.config/zsh/ripgreprc).
         vimgrep_arguments = {
           "rg",
           "--color=never",
@@ -81,15 +83,14 @@ return {
           "--with-filename",
           "--line-number",
           "--column",
-          "--smart-case",
-          "--hidden",
-          "--glob=!**/.git/*",
         }
       },
 
       pickers = {
         find_files = {
-          hidden = true,
+          -- Explicit so it's obvious $RIPGREP_CONFIG_PATH applies here; telescope's
+          -- implicit default happens to pick rg first, but silently.
+          find_command = { "rg", "--files", "--color", "never" },
           no_ignore = false, -- keep respecting .gitignore
         },
       },
