@@ -56,6 +56,27 @@ return {
     }
   end,
   config = function()
+    local actions = require('telescope.actions')
+    local action_state = require('telescope.actions.state')
+
+    -- <CR> opens every multi-selected entry; falls back to the default action
+    -- when nothing is marked, so non-file pickers keep working.
+    local function select_multi(prompt_bufnr)
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local multi = picker:get_multi_selection()
+      if #multi == 0 then
+        return actions.select_default(prompt_bufnr)
+      end
+      actions.close(prompt_bufnr)
+      for _, entry in ipairs(multi) do
+        local path = entry.path or entry.filename or entry.value
+        vim.cmd.edit(vim.fn.fnameescape(path))
+        if entry.lnum then
+          vim.api.nvim_win_set_cursor(0, { entry.lnum, (entry.col or 1) - 1 })
+        end
+      end
+    end
+
     require('telescope').setup({
       defaults = {
         prompt_prefix = "",
@@ -69,8 +90,12 @@ return {
         file_ignore_patterns = { "__pycache__/", "^%.git/", "/%.git/" },
         mappings = {
           i = {
-            ["<m-j>"] = require('telescope.actions').move_selection_next,
-            ["<m-k>"] = require('telescope.actions').move_selection_previous,
+            ["<m-j>"] = actions.move_selection_next,
+            ["<m-k>"] = actions.move_selection_previous,
+            ["<CR>"] = select_multi,
+          },
+          n = {
+            ["<CR>"] = select_multi,
           },
         },
 
