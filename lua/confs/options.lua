@@ -1,6 +1,7 @@
 -- Set leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
+vim.g.no_python_maps = 1 -- drop stock regex ]m/]] jumps; treesitter ]f covers it
 
 -- Basic options
 vim.opt.number = true

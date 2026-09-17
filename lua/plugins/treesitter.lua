@@ -3,7 +3,7 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   branch = 'main',
-  -- Provides @function.outer / @class.outer textobject queries used by mini.ai.
+  -- Provides @function.outer / @class.outer queries (mini.ai) and the move module (]f / [f).
   dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   lazy = false,
   build = ':TSUpdate',
@@ -36,5 +36,14 @@ return {
         end
       end,
     })
+
+    local move = require('nvim-treesitter-textobjects.move')
+    local function map_move(lhs, fn, desc)
+      vim.keymap.set({ 'n', 'x', 'o' }, lhs, function() fn('@function.outer', 'textobjects') end, { desc = desc })
+    end
+    map_move(']f', move.goto_next_start, 'Next function start')
+    map_move('[f', move.goto_previous_start, 'Previous function start')
+    map_move(']F', move.goto_next_end, 'Next function end')
+    map_move('[F', move.goto_previous_end, 'Previous function end')
   end,
 }
