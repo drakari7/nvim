@@ -49,6 +49,9 @@ return {
         local lines = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), { type = m })
         builtin.grep_string({ search = table.concat(lines, '\n'), initial_mode = 'normal' })
       end, desc = 'Grep visual selection' },
+      { '<leader>fW', function()
+        builtin.grep_string({ search = (vim.api.nvim_get_current_line():gsub('^%s+', '')),initial_mode = 'normal' })
+      end, desc = 'Grep current line' },
       { '<leader>fr', function() builtin.resume({ initial_mode = 'normal' }) end,                            desc = 'Resume last picker' },
       { '<leader>cs', function() builtin.colorscheme({ ignore_builtins = true, enable_preview = true }) end, desc = 'Change colorscheme' },
       -- zoxide extension is set up in config(); defer require to call time so it's available.
