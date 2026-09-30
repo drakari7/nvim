@@ -7,5 +7,6 @@ vim.filetype.add({
     build = 'systemd',
     kube = 'systemd',
     image = 'systemd',
+    target = 'systemd',
   },
 })
